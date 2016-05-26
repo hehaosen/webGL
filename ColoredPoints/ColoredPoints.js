@@ -36,8 +36,18 @@ function main() {
     // 获取a_Position变量的存储位置
     var a_Position = gl.getAttribLocation(gl.program, 'a_Position');
 
+    if (a_Position < 0) {
+        console.log('Failed to get the storage location of a_Position');
+        return;
+    }
+
     // 获取 u_FragColor变量的存储位置
     var u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
+
+    if (!u_FragColor) {
+        console.log('Failed to get u_FragColor variable');
+        return;
+    }
 
     // 注册鼠标点击事件响应函数
     canvas.onmousedown = function (ev) { click(ev, gl, canvas, a_Position);};
