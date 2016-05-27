@@ -1,9 +1,10 @@
-// HelloTriangle.js
+// RotatedTriangle_Matrix.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
+    'uniform float u_xformMatrix;\n' +
     'void main() {\n' +
-    '   gl_Position = a_Position;\n' +
+    '   gl_Position = u_xformMatrix * a_Position;\n' +
     '}\n';
 
 // 片源着色器
@@ -13,6 +14,9 @@ var FSHADER_SOURCE =
     'void main() {\n' +
     '   gl_FragColor = u_FragColor;\n' +
     '}\n';
+
+// 旋转角度
+var ANGLE = 90.0;
 
 function main() {
     // 获取<canvas>元素
@@ -39,12 +43,35 @@ function main() {
         return;
     }
 
+    // 创建旋转矩阵
+    var radian = Math.PI * ANGLE / 180.0 ; // 转为弧度制
+    var cosB = Math.cos(radian), sinB = Math.sin(radian);
+
+    // 注意WebGL中矩阵式列主序的
+    var xformMatrix = new Float32Array([
+        cosB, sinB, 0.0, 0.0,
+        -sinB, cosB, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    ]);
+
+    //将旋转矩阵传输给顶点着色器
+    var u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
+
+
+    if (!u_xformMatrix) {
+        console.log('Failed to get u_xformMatrix variable');
+        return;
+    }
+
+    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix);
+
     // 清空<canvas>的背景色
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // 绘制三个点
+    // 绘制三角形
     gl.drawArrays(gl.TRIANGLES, 0, n); // n is 3
 }
 

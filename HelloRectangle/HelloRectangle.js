@@ -1,4 +1,4 @@
-// HelloTriangle.js
+// HelloRectangle.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
@@ -45,14 +45,15 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // 绘制三个点
-    gl.drawArrays(gl.TRIANGLES, 0, n); // n is 3
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, n); // n is 3
+
 }
 
 function initVertexBuffers(gl) {
     var vertices = new Float32Array([
-        0.0, 0.5, -0.5, -0.5, 0.5, -0.5
+        -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5
     ]);
-    var n = 3; //点的个数
+    var n = 4; //点的个数
 
     // 创建缓冲区对象
     var vertexBuffer = gl.createBuffer();

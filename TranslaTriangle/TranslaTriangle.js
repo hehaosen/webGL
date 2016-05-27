@@ -1,9 +1,10 @@
-// HelloTriangle.js
+// TranslaTriangle.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
+    'uniform vec4 u_Translation;\n' +
     'void main() {\n' +
-    '   gl_Position = a_Position;\n' +
+    '   gl_Position = a_Position + u_Translation;\n' +
     '}\n';
 
 // 片源着色器
@@ -13,6 +14,9 @@ var FSHADER_SOURCE =
     'void main() {\n' +
     '   gl_FragColor = u_FragColor;\n' +
     '}\n';
+
+// 在x, y, z方向上平移的距离
+var Tx= 0.5, Ty= 0.5, Tz = 0.0;
 
 function main() {
     // 获取<canvas>元素
@@ -38,6 +42,16 @@ function main() {
         console.log('Failed to set the positions of the vertices');
         return;
     }
+
+    // 将平移距离传输给定点着色器
+    var u_Translation = gl.getUniformLocation(gl.program, 'u_Translation');
+
+    if (!u_Translation) {
+        console.log('Failed to get u_Translation variable');
+        return;
+    }
+
+    gl.uniform4f(u_Translation, Tx, Ty, Tz, 0.0);
 
     // 清空<canvas>的背景色
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
