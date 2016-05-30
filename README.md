@@ -31,3 +31,5 @@ WebGL实例程序
 根据变量旋转绘制的三角形
 #RotatedTriangle_matrix
 根据矩阵式列变换三角形
+#RotatedTringle_matrix4
+利用函数库旋转三角形
