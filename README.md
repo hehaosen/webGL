@@ -1,4 +1,3 @@
-
 #DrawRectangle
 Canvas绘制矩形
 #HelloCanvs
@@ -33,3 +32,9 @@ WebGL实例程序
 根据矩阵式列变换三角形
 #RotatedTringle_matrix4
 利用函数库旋转三角形
+#RotatedTranslatedTriangle
+利用函数对三角形进行复杂变化
+#RotatingTriangle
+三角形旋转动画
+#RotatingTranslatedTriangle
+三角形复合动画

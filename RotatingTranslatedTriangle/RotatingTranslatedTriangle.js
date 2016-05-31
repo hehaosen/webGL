@@ -1,10 +1,10 @@
-// RotatedTriangle_Matrix4.js
+// RotatingTranslatedTriangle.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
-    'uniform mat4 u_xformMatrix;\n' +
+    'uniform mat4 u_ModelMatrix;\n' +
     'void main() {\n' +
-    '   gl_Position = u_xformMatrix * a_Position;\n' +
+    '   gl_Position = u_ModelMatrix * a_Position;\n' +
     '}\n';
 
 // 片源着色器
@@ -15,8 +15,8 @@ var FSHADER_SOURCE =
     '   gl_FragColor = u_FragColor;\n' +
     '}\n';
 
-// 旋转角度
-var ANGLE = 90.0;
+// 旋转速度(度/秒);
+var ANGLE_STEP = 45.0;
 
 function main() {
     // 获取<canvas>元素
@@ -43,30 +43,34 @@ function main() {
         return;
     }
 
-    // 为旋转矩阵创建Matrix4对象
-    var xformMatrix = new Matrix4();
-
-    // 将xformMatrix设置为旋转矩阵
-    xformMatrix.setRotate(ANGLE, 0, 0, 1);
-
-    //将旋转矩阵传输给顶点着色器
-    var u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
-
-
-    if (!u_xformMatrix) {
-        console.log('Failed to get u_xformMatrix variable');
-        return;
-    }
-
-    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix.elements);
-
     // 清空<canvas>的背景色
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    //将旋转矩阵传输给顶点着色器
+    var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
 
-    // 绘制三角形
-    gl.drawArrays(gl.TRIANGLES, 0, n); // n is 3
+    if (!u_ModelMatrix) {
+        console.log('Failed to get u_ModelMatrix variable');
+        return;
+    }
+
+    // 三角形的当前旋转角度
+    var currentAngle = 0.0;
+
+    // 为旋转矩阵创建Matrix4对象
+    var modelMatrix = new Matrix4();
+
+    // 开始绘制三角形
+    var tick = function () {
+        currentAngle = animate(currentAngle); // 更新旋转角
+        draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix);
+        requestAnimationFrame(tick); // 请求浏览器调用tick
+    };
+    tick();
+
+
+
+
 }
 
 function initVertexBuffers(gl) {
@@ -102,4 +106,32 @@ function initVertexBuffers(gl) {
     gl.enableVertexAttribArray(a_Position);
 
     return n
+}
+
+function draw(gl, n, currentAngle, modelMatrix, u_ModelMatrix) {
+    // 设置旋转矩阵
+    modelMatrix.setRotate(currentAngle, 0, 0, 1);
+    modelMatrix.translate(0.35, 0, 0);
+    // 将旋转矩阵传输到顶点着色器
+    gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+
+    // 清除<canvas>
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // 绘制三角形
+    gl.drawArrays(gl.TRIANGLES, 0, n); // n is 3
+}
+
+// 记录上一次调用函数的时刻
+var g_last = Date.now();
+
+function animate(angle) {
+    // 计算距离上次调用经过多长时间
+    var now = Date.now();
+    var elapsed = now - g_last; // 毫秒
+    g_last = now;
+
+    // 根据距离上次调用时间，更新当前旋转角度
+    var newAngle = angle + (ANGLE_STEP * elapsed) / 1000.0;
+    return newAngle %= 360;
 }

@@ -1,10 +1,10 @@
-// RotatedTriangle_Matrix4.js
+// RotatedTranslatedTriangle.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
-    'uniform mat4 u_xformMatrix;\n' +
+    'uniform mat4 u_ModelMatrix;\n' +
     'void main() {\n' +
-    '   gl_Position = u_xformMatrix * a_Position;\n' +
+    '   gl_Position = u_ModelMatrix * a_Position;\n' +
     '}\n';
 
 // 片源着色器
@@ -15,8 +15,6 @@ var FSHADER_SOURCE =
     '   gl_FragColor = u_FragColor;\n' +
     '}\n';
 
-// 旋转角度
-var ANGLE = 90.0;
 
 function main() {
     // 获取<canvas>元素
@@ -44,21 +42,25 @@ function main() {
     }
 
     // 为旋转矩阵创建Matrix4对象
-    var xformMatrix = new Matrix4();
+    var modelMatrix = new Matrix4();
 
-    // 将xformMatrix设置为旋转矩阵
-    xformMatrix.setRotate(ANGLE, 0, 0, 1);
+    // 计算模型矩阵
+    var ANGLE = 60.0; // 旋转角
+    var Tx = 0.5; // 平移距离
+
+    modelMatrix.setRotate(ANGLE, 0, 0, 1); // 设置模型矩阵为旋转矩阵
+    modelMatrix.translate(Tx, 0, 0); // 将模型矩阵乘以平移矩阵
 
     //将旋转矩阵传输给顶点着色器
-    var u_xformMatrix = gl.getUniformLocation(gl.program, 'u_xformMatrix');
+    var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
 
 
-    if (!u_xformMatrix) {
-        console.log('Failed to get u_xformMatrix variable');
+    if (!u_ModelMatrix) {
+        console.log('Failed to get u_ModelMatrix variable');
         return;
     }
 
-    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix.elements);
+    gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
 
     // 清空<canvas>的背景色
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
