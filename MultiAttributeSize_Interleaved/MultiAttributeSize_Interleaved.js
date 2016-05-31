@@ -89,6 +89,7 @@ function initVertexBuffers(gl) {
         console.log('Failed to get the storage location of a_PointSize');
         return a_PointSize;
     }
+
     gl.vertexAttribPointer(a_PointSize, 1, gl.FLOAT, false, FSIZE * 3, FSIZE * 2);
     gl.enableVertexAttribArray(a_PointSize);
 

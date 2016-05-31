@@ -42,3 +42,5 @@ WebGL实例程序
 绘制三个不同尺寸的点
 #MultiAttributeSize_Interleaved
 将坐标数据和尺寸数据打包到一个缓冲区，绘制三个不同尺寸的点
+#MultiAttributeColor
+将坐标数据和颜色数据打包到一个缓冲区，绘制三个不同颜色的点
