@@ -38,3 +38,5 @@ WebGL实例程序
 三角形旋转动画
 #RotatingTranslatedTriangle
 三角形复合动画
+#MultiAttributeSize
+绘制三个不同尺寸的点
