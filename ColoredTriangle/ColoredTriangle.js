@@ -1,4 +1,4 @@
-// MultiAttributeColor.js
+// ColoredTriangle.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
