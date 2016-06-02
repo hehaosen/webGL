@@ -50,3 +50,5 @@ WebGL实例程序
 纹理图像
 #TexturedQuad_Repeat
 修改纹理图像坐标
+#TexturedQuad_Clamp_Mirror
+修改纹理参数

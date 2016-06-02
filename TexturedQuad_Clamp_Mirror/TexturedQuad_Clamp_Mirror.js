@@ -1,4 +1,4 @@
-// TexturedQuad_Repeat.js
+// TexturedQuad_Repeat_Mirror.js
 // 顶点着色器
 var VSHADER_SOURCE =
     'attribute vec4 a_Position;\n' +
@@ -147,6 +147,8 @@ function loadTexture(gl, n , texture, u_Sampler, image) {
 
     // 配置纹理参数
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);// 在S轴(水平轴)上，纹理外填充了最边缘纹素的颜色
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);// 在T轴(垂直轴)上镜像地重复填充纹理
 
     // 配置纹理图像
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
