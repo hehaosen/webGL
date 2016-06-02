@@ -48,3 +48,5 @@ WebGL实例程序
 绘制一个颜色平滑的三角形
 #TexturedQuad
 纹理图像
+#TexturedQuad_Repeat
+修改纹理图像坐标
