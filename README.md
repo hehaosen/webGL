@@ -52,3 +52,5 @@ WebGL实例程序
 修改纹理图像坐标
 #TexturedQuad_Clamp_Mirror
 修改纹理参数
+#MultiTexture
+使用两幅纹理图像
