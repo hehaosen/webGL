@@ -54,3 +54,5 @@ WebGL实例程序
 修改纹理参数
 #MultiTexture
 使用两幅纹理图像
+#LookAtTriangles
+三个具有不同深度的三角形
